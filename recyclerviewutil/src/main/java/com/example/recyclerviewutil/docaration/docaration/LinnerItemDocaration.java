@@ -1,4 +1,4 @@
-package com.example.recyclerviewutil.docaration;
+package com.example.recyclerviewutil.docaration.docaration;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -43,7 +43,36 @@ public class LinnerItemDocaration extends RecyclerView.ItemDecoration {
     }
 
     private void drawHorizontal(Canvas canvas, RecyclerView parent) {
+        canvas.save();
+        final int top;
+        final int bottom;
+        if (parent.getClipToPadding()) {
+            top = parent.getPaddingTop();
+            bottom = parent.getHeight() - parent.getPaddingBottom();
+            canvas.clipRect(parent.getPaddingLeft(), top,
+                    parent.getWidth() - parent.getPaddingRight(), bottom);
+        } else {
+            top = 0;
+            bottom = parent.getHeight();
+        }
 
+        final int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+//            final View child = parent.getChildAt(i);
+//            parent.getLayoutManager().getDecoratedBoundsWithMargins(child, mBounds);
+//            final int right = mBounds.right + Math.round(ViewCompat.getTranslationX(child));
+//            final int left = right - mDivider.getIntrinsicWidth();
+//            mDivider.setBounds(left, top, right, bottom);
+//            mDivider.draw(canvas);
+
+
+            final View child = parent.getChildAt(i);
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
+            final int left = child.getLeft() - layoutParams.leftMargin;
+            final int right = left + mItemDividerSize;
+            canvas.drawRect(left, top, right, bottom, mPaint);
+        }
+        canvas.restore();
     }
 
     private void drawVertical(Canvas canvas, RecyclerView parent) {
@@ -59,10 +88,11 @@ public class LinnerItemDocaration extends RecyclerView.ItemDecoration {
             left = 0;
             right = parent.getWidth();
         }
-        mItemDividerSize = (int) TypedValue.applyDimension(mItemDividerSize, TypedValue.COMPLEX_UNIT_DIP, mContext.getResources().getDisplayMetrics());
+     //   mItemDividerSize = (int) TypedValue.applyDimension(mItemDividerSize, TypedValue.COMPLEX_UNIT_DIP, mContext.getResources().getDisplayMetrics());
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
+            //这是系统的源码DividerItemDecoration
 //            final View child = parent.getChildAt(i);
 //            parent.getDecoratedBoundsWithMargins(child, mBounds);
 //            final int bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child));
@@ -78,6 +108,7 @@ public class LinnerItemDocaration extends RecyclerView.ItemDecoration {
             canvas.drawRect(left, top, right, bottom, mPaint);
         }
         canvas.restore();
+
 
 
 
