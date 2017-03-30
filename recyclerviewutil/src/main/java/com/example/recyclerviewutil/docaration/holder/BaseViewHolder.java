@@ -11,13 +11,13 @@ import android.view.ViewGroup;
  * Created by mr.gao on 2017/3/22.
  */
 
-public class ViewHolder extends RecyclerView.ViewHolder
+public class BaseViewHolder extends RecyclerView.ViewHolder
 {
     private SparseArray<View> mViews;
     private View mConvertView;
     private Context mContext;
 
-    public ViewHolder(Context context, View itemView, ViewGroup parent)
+    public BaseViewHolder(Context context, View itemView, ViewGroup parent)
     {
         super(itemView);
         mContext = context;
@@ -26,15 +26,30 @@ public class ViewHolder extends RecyclerView.ViewHolder
     }
 
 
-    public static ViewHolder get(Context context, ViewGroup parent, int layoutId)
+    public static BaseViewHolder get(Context context, ViewGroup parent, int layoutId)
     {
 
         View itemView = LayoutInflater.from(context).inflate(layoutId, parent,
                 false);
-        ViewHolder holder = new ViewHolder(context, itemView, parent);
+        BaseViewHolder holder = new BaseViewHolder(context, itemView, parent);
         return holder;
     }
 
+    public BaseViewHolder(View itemView)
+    {
+        super(itemView);
+        mConvertView = itemView;
+        mViews = new SparseArray<View>();
+    }
+
+
+    public static BaseViewHolder get(View itemView)
+    {
+
+
+
+        return   new BaseViewHolder( itemView);
+    }
 
     /**
      * 通过viewId获取控件
