@@ -2,6 +2,7 @@ package com.example.recyclerviewutil.docaration.banner;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Message;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,69 +18,87 @@ import android.widget.LinearLayout;
 import com.example.recyclerviewutil.R;
 
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by Mr_g on 2017/3/30.
  */
 
-public  class RecyclerViewBanner extends FrameLayout {
+public class RecyclerViewBanner extends FrameLayout {
 
-    private   int INTERVAL = 3;
-    private  Context context;
+    private int INTERVAL = 3;
+    private Context context;
     private RecyclerView recyclerview;
     private LinearLayout indicator;
 
     public RecyclerViewBanner(@NonNull Context context) {
         super(context);
-        this.context=context;
+        this.context = context;
         init();
     }
 
 
-
     public RecyclerViewBanner(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.context=context;
+        this.context = context;
         init();
     }
 
     public RecyclerViewBanner(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context=context;
+        this.context = context;
         init();
 
 
     }
+
     private void init() {
         View banner = LayoutInflater.from(context).inflate(R.layout.banner, this, false);
         recyclerview = (RecyclerView) banner.findViewById(R.id.recyclerview);
         indicator = (LinearLayout) banner.findViewById(R.id.indicator);
         addView(banner);
     }
-    public void setDate(List<String> imgs){
+
+    public void setDate(List<String> imgs) {
         BannerAdapter bannerAdapter = new BannerAdapter<String>(imgs, R.layout.item_banner_img) {
             @Override
             void setImg(ImageView banner_img, String url) {
-                loadUrl(banner_img,url);
+                loadUrl(banner_img, url);
             }
         };
 
-        recyclerview.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+        recyclerview.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         recyclerview.setAdapter(bannerAdapter);
-       new PagerSnapHelper().attachToRecyclerView(recyclerview);
-
-    }
-    public void setTime(int second){
-        INTERVAL=second;
+        new PagerSnapHelper().attachToRecyclerView(recyclerview);
 
     }
 
-   public  void loadUrl(ImageView banner_img, String url) {
-       banner_img.setBackgroundColor(Color.BLACK);
-   }
-   public void startChange( RecyclerView recyclerview){
-      // recyclerview.la
-      // recyclerview.smoothScrollToPosition();
-   }
+    public void setTime(int second) {
+        INTERVAL = second;
+
+    }
+
+    public void loadUrl(ImageView banner_img, String url) {
+        banner_img.setBackgroundColor(Color.BLACK);
+    }
+
+    public void startChange() {
+        Myhandler myhandler = new Myhandler();
+
+            myhandler.sendEmptyMessageDelayed(0,INTERVAL*1000);
+
+
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerview.getLayoutManager();
+        int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+        recyclerview.smoothScrollToPosition(firstVisibleItemPosition + 1);
+    }
+    class Myhandler extends android.os.Handler{
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+        }
+    }
 
 }

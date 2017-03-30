@@ -21,16 +21,21 @@ public abstract class BannerAdapter<String> extends BaseAdapter {
 
     public BannerAdapter(List<String> datas, @LayoutRes int layout) {
         super(datas, layout);
-        this.datas=datas;
+        this.datas = datas;
     }
 
     @Override
     public void convert(BaseViewHolder holder, int position) {
-
+        position = position % datas.size();
         ImageView banner_img = holder.getView(R.id.banner_img);
         String url = datas.get(position);
-        setImg(banner_img,url);
+        setImg(banner_img, url);
     }
 
-     abstract void setImg(ImageView banner_img, String url);
+    abstract void setImg(ImageView banner_img, String url);
+
+    @Override
+    public int getItemCount() {
+        return Integer.MAX_VALUE;
+    }
 }
