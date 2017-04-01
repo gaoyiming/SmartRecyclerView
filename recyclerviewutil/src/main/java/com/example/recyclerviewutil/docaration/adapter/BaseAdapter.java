@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.recyclerviewutil.docaration.holder.BaseViewHolder;
+import com.example.recyclerviewutil.docaration.listener.ItemClickListener;
+import com.example.recyclerviewutil.docaration.listener.ItemLongClickListener;
 
 import java.util.List;
 
@@ -18,6 +20,8 @@ import java.util.List;
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
     private List<T> dates;
     private int layout;
+    private ItemClickListener mItemClickListener;
+    private ItemLongClickListener itemLongCLickListener;
 
     public BaseAdapter(List<T> datas, @LayoutRes int layout) {
         this.dates = datas;
@@ -32,6 +36,24 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
+        final int adapterPosition = holder.getAdapterPosition();
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.click(adapterPosition);
+                }
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (itemLongCLickListener != null) {
+                    itemLongCLickListener.longClick(adapterPosition);
+                }
+                return true;
+            }
+        });
         convert(holder, position);
     }
 
@@ -40,5 +62,13 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     @Override
     public int getItemCount() {
         return dates.size();
+    }
+
+    public void setOnItemCLickListener(ItemClickListener itemClickListener) {
+        this.mItemClickListener = itemClickListener;
+    }
+
+    public void setOnItemLongCLickListener(ItemLongClickListener itemLongCLickListener) {
+        this.itemLongCLickListener = itemLongCLickListener;
     }
 }

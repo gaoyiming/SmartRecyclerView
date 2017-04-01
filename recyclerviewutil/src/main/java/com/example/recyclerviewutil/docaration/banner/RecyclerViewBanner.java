@@ -35,12 +35,12 @@ public class RecyclerViewBanner extends FrameLayout {
     private RecyclerView recyclerview;
     private IndicatorView indicator;
     private Myhandler myhandler;
-    private boolean isPlay;
-    private Thread thread;
+
     private Timer timer;
+    private int size;
+    private int DisplayItemCount=1;
 
     private class MyTimerTask extends TimerTask {
-
         @Override
         public void run() {
             myhandler.sendEmptyMessage(0);
@@ -76,40 +76,41 @@ public class RecyclerViewBanner extends FrameLayout {
 
     }
 
-    public void setDate(List<String> imgs) {
-        BannerAdapter bannerAdapter = new BannerAdapter<String>(imgs, R.layout.item_banner_img) {
-            @Override
-            void setImg(ImageView banner_img, String url) {
-                loadUrl(banner_img, url);
-            }
-        };
+    public void setDate(BannerAdapter bannerAdapter) {
 
         recyclerview.setLayoutManager(new ScrollSpeedLinearLayoutManger(context, LinearLayoutManager.HORIZONTAL, false));
         recyclerview.setAdapter(bannerAdapter);
+
         new PagerSnapHelper().attachToRecyclerView(recyclerview);
 
         if (myhandler == null) {
             myhandler = new Myhandler();
         }
-        int size = imgs.size();
+
+        size = bannerAdapter.getRealItemCount();
+        recyclerview.scrollToPosition(1000 * size-DisplayItemCount);
+        recyclerview.smoothScrollToPosition(1000 * size);
+
         indicator.setDate(size);
-        indicator.setCheck(2);
+        startPlay(true);
+
     }
+
 
     public void setTime(int second) {
         INTERVAL = second;
 
     }
 
-    public void loadUrl(ImageView banner_img, String url) {
-        banner_img.setBackgroundColor(Color.BLACK);
-    }
 
     public void startPlay(boolean isPlay) {
 
         if (isPlay) {
+            if(timer!=null)
+            timer.cancel();
+            indicator.setCheck(0);
             timer = new Timer();
-            timer.schedule(new MyTimerTask(),INTERVAL*1000,INTERVAL*1000);
+            timer.schedule(new MyTimerTask(), INTERVAL * 1000, INTERVAL * 1000);
         } else {
             timer.cancel();
         }
@@ -136,17 +137,40 @@ public class RecyclerViewBanner extends FrameLayout {
     }
 
 
-
-    class Myhandler extends android.os.Handler {
+    private class Myhandler extends android.os.Handler {
         @Override
         public void handleMessage(Message msg) {
 
             super.handleMessage(msg);
             LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerview.getLayoutManager();
             int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-            recyclerview.smoothScrollToPosition(firstVisibleItemPosition + 1);
-
+            int currentPosition = firstVisibleItemPosition + 1;
+            recyclerview.smoothScrollToPosition(currentPosition);
+            indicator.setCheck(currentPosition % size);
         }
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        startPlay(true);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        startPlay(false);
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        if (visibility == View.GONE) {
+            // 停止轮播
+            startPlay(false);
+        } else if (visibility == View.VISIBLE) {
+            // 开始轮播
+            startPlay(true);
+        }
+        super.onWindowVisibilityChanged(visibility);
+    }
 }

@@ -24,8 +24,8 @@ public class LinnerItemDocaration extends RecyclerView.ItemDecoration {
     public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
     public static final int VERTICAL = LinearLayout.VERTICAL;
     private static final int DEFAULSIZE = 1;
-    private  Context mContext;
-    private  int mItemDividerSize=1;
+    private Context mContext;
+    private int mItemDividerSize = 1;
     private int mOrientation = LinearLayout.VERTICAL;
     private Paint mPaint;
 
@@ -88,7 +88,7 @@ public class LinnerItemDocaration extends RecyclerView.ItemDecoration {
             left = 0;
             right = parent.getWidth();
         }
-     //   mItemDividerSize = (int) TypedValue.applyDimension(mItemDividerSize, TypedValue.COMPLEX_UNIT_DIP, mContext.getResources().getDisplayMetrics());
+        //   mItemDividerSize = (int) TypedValue.applyDimension(mItemDividerSize, TypedValue.COMPLEX_UNIT_DIP, mContext.getResources().getDisplayMetrics());
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -108,8 +108,6 @@ public class LinnerItemDocaration extends RecyclerView.ItemDecoration {
             canvas.drawRect(left, top, right, bottom, mPaint);
         }
         canvas.restore();
-
-
 
 
     }
@@ -132,12 +130,12 @@ public class LinnerItemDocaration extends RecyclerView.ItemDecoration {
     }
 
     public LinnerItemDocaration(Context context, int orientation, int color, int size) {
-        this.mOrientation=orientation;
-        this.mItemDividerSize=size;
+        this.mOrientation = orientation;
+        this.mItemDividerSize = size;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(color);
         mPaint.setStyle(Paint.Style.FILL);
-        if (orientation!= LinearLayout.VERTICAL&&orientation!= LinearLayout.HORIZONTAL) {
+        if (orientation != LinearLayout.VERTICAL && orientation != LinearLayout.HORIZONTAL) {
             throw new IllegalArgumentException("LinearLayoutManager error");
         }
 
@@ -158,6 +156,6 @@ public class LinnerItemDocaration extends RecyclerView.ItemDecoration {
 
     public LinnerItemDocaration(Context context) {
         this(context, LinearLayout.VERTICAL);
-this.mContext=context;
+        this.mContext = context;
     }
 }

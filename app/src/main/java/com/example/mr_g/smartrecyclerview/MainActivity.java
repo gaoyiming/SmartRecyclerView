@@ -1,5 +1,6 @@
 package com.example.mr_g.smartrecyclerview;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,9 +14,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.recyclerviewutil.docaration.adapter.HeaderFooterAdapter;
+import com.example.recyclerviewutil.docaration.banner.BannerAdapter;
 import com.example.recyclerviewutil.docaration.banner.RecyclerViewBanner;
 import com.example.recyclerviewutil.docaration.docaration.GridItemDocaration;
 import com.example.recyclerviewutil.docaration.holder.BaseViewHolder;
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
        // setSupportActionBar(toolbar);
         recyclerview = (RecyclerViewBanner) findViewById(R.id.recyclerview);
-
+       // recyclerview.loadUrl();
 //        recyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 //        recyclerview.addItemDecoration(new LinnerItemDocaration(this, LinearLayoutManager.VERTICAL));
         ArrayList<String> strings = new ArrayList<>();
@@ -44,7 +47,14 @@ public class MainActivity extends AppCompatActivity {
         strings.add("2");
         strings.add("3");
         strings.add("4");
-        recyclerview.setDate(strings);
+        BannerAdapter<String> stringBannerAdapter = new BannerAdapter<String>(strings) {
+            @Override
+            public void setImg(ImageView banner_img, String url) {
+                banner_img.setBackgroundColor(Color.RED);
+            }
+        };
+        recyclerview.setDate(stringBannerAdapter);
+        //recyclerview
 //        HeaderFooterAdapter headerFooterAdapter = new HeaderFooterAdapter(strings,R.layout.comment) {
 //            @Override
 //            public void convert(BaseViewHolder holder, Object o) {
@@ -71,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recyclerview.startPlay(true);
+               // recyclerview.startPlay(true);
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

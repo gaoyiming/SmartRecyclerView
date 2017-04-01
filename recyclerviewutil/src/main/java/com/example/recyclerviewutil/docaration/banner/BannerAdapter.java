@@ -22,6 +22,12 @@ public abstract class BannerAdapter<String> extends BaseAdapter {
     public BannerAdapter(List<String> datas, @LayoutRes int layout) {
         super(datas, layout);
         this.datas = datas;
+
+    }
+
+    public BannerAdapter(List<String> datas) {
+        this(datas, R.layout.item_banner_img);
+
     }
 
     @Override
@@ -32,10 +38,13 @@ public abstract class BannerAdapter<String> extends BaseAdapter {
         setImg(banner_img, url);
     }
 
-    abstract void setImg(ImageView banner_img, String url);
+    public abstract void setImg(ImageView banner_img, String url);
 
     @Override
     public int getItemCount() {
         return Integer.MAX_VALUE;
+    }
+    public int getRealItemCount() {
+        return datas.size();
     }
 }
