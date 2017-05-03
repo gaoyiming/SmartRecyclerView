@@ -28,6 +28,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         this.layout = layout;
     }
 
+    public void setDates(List<T> datas) {
+        this.dates = datas;
+      //  notifyDataSetChanged();
+    }
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);

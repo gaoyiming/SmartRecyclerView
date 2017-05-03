@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.example.recyclerviewutil.R;
 import com.example.recyclerviewutil.docaration.holder.BaseViewHolder;
 import com.example.recyclerviewutil.docaration.listener.ItemClickListener;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  * Created by mr.gao on 2017/3/22.
  */
 
-public abstract class HeaderFooterAdapter extends RecyclerView.Adapter {
+public abstract class HeaderFooterAdapter extends BaseAdapter {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_NORMAL = 1;
     private static final int TYPE_FOOTER = 2;
@@ -30,7 +31,7 @@ public abstract class HeaderFooterAdapter extends RecyclerView.Adapter {
     private ItemClickListener mItemClickListener;
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (viewType == TYPE_HEADER) {
             ViewParent parent_ = mHeaderView.getParent();
@@ -48,6 +49,7 @@ public abstract class HeaderFooterAdapter extends RecyclerView.Adapter {
     }
 
     public HeaderFooterAdapter(ArrayList datas, @LayoutRes int layout) {
+        super(datas, layout);
         this.dates = datas;
         this.layout = layout;
     }
