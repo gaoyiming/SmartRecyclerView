@@ -3,7 +3,6 @@ package com.example.mr_g.smartrecyclerview;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
@@ -11,32 +10,25 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.recyclerviewutil.docaration.adapter.BaseAdapter;
 import com.example.recyclerviewutil.docaration.adapter.HeaderFooterAdapter;
 import com.example.recyclerviewutil.docaration.banner.BannerAdapter;
 import com.example.recyclerviewutil.docaration.banner.RecyclerViewBanner;
-import com.example.recyclerviewutil.docaration.docaration.GridItemDocaration;
 import com.example.recyclerviewutil.docaration.holder.BaseViewHolder;
-import com.example.recyclerviewutil.docaration.listener.ItemClickListener;
 import com.example.recyclerviewutil.docaration.util.BaseDiffCallBack;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private RecyclerView recyclerview;
+    private RecyclerViewBanner recyclerview;
     private HeaderFooterAdapter headerFooterAdapter;
     private BaseAdapter baseAdapter;
     private ArrayList<String> newstrings;
@@ -49,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
        // setSupportActionBar(toolbar);
        // recyclerview = (RecyclerViewBanner) findViewById(R.id.recyclerview);
-        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerview = (RecyclerViewBanner) findViewById(R.id.recyclerview);
        // recyclerview.loadUrl();
 //        recyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 //        recyclerview.addItemDecoration(new LinnerItemDocaration(this, LinearLayoutManager.VERTICAL));
@@ -59,22 +51,22 @@ public class MainActivity extends AppCompatActivity {
         strings.add("3");
         strings.add("4");
 
-//        BannerAdapter<String> stringBannerAdapter = new BannerAdapter<String>(strings) {
-//            @Override
-//            public void setImg(ImageView banner_img, String url) {
-//                banner_img.setBackgroundColor(Color.RED);
-//            }
-//        };
-//        recyclerview.setDate(stringBannerAdapter);
+        BannerAdapter<String> stringBannerAdapter = new BannerAdapter<String>(strings) {
+            @Override
+            public void setImg(ImageView banner_img, String url) {
+                banner_img.setBackgroundColor(Color.RED);
+            }
+        };
+        recyclerview.setDate(stringBannerAdapter);
 
-        recyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-         baseAdapter = new BaseAdapter(strings, R.layout.comment) {
-             @Override
-             public void convert(BaseViewHolder holder, int position) {
-
-
-             }
-         };
+//        recyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+//         baseAdapter = new BaseAdapter<String>(strings, R.layout.comment) {
+//
+//             @Override
+//             public void convert(BaseViewHolder holder, int position, String s) {
+//
+//             }
+//         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
@@ -113,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
                 baseAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         });
-        itemTouchHelper.attachToRecyclerView(recyclerview);
-        recyclerview.setAdapter(baseAdapter);
+//        itemTouchHelper.attachToRecyclerView(recyclerview);
+//        recyclerview.setAdapter(baseAdapter);
         //recyclerview
         // holder.getView()
 //        headerFooterAdapter = new HeaderFooterAdapter(strings, R.layout.comment) {

@@ -1,6 +1,5 @@
 package com.example.mr_g.smartrecyclerview;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +19,7 @@ public class DIffAdapter extends BaseAdapter {
     }
 
     @Override
-    public void convert(BaseViewHolder holder, int position) {
+    public void convert(BaseViewHolder holder, int position, Object t) {
 
     }
 

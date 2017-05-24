@@ -1,7 +1,6 @@
 package com.example.recyclerviewutil.docaration.banner;
 
 import android.support.annotation.LayoutRes;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.example.recyclerviewutil.R;
@@ -31,7 +30,7 @@ public abstract class BannerAdapter<String> extends BaseAdapter {
     }
 
     @Override
-    public void convert(BaseViewHolder holder, int position) {
+    public void convert(BaseViewHolder holder, int position, Object t) {
         position = position % datas.size();
         ImageView banner_img = holder.getView(R.id.banner_img);
         String url = datas.get(position);

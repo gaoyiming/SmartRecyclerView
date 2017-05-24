@@ -59,10 +59,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
                 return true;
             }
         });
-        convert(holder, position);
+        convert(holder, position,dates.get(position>dates.size()?position%dates.size():position));
     }
 
-    public abstract void convert(BaseViewHolder holder, int position);
+    public abstract void convert(BaseViewHolder holder, int position, T t);
 
     @Override
     public int getItemCount() {
